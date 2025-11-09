@@ -21,6 +21,7 @@ import AgentDashboardOverview from "@/pages/AgentDashboardOverview";
 import AllUsers from "@/pages/AllUsers";
 import TransactionsPage from "@/pages/TransactionsPage ";
 import AdminOverview from "@/pages/AdminOverview";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 export const router = createBrowserRouter([
     {
@@ -113,5 +114,9 @@ export const router = createBrowserRouter([
     {
         Component:register,
         path:"/register"
+    },
+    { 
+        path: "*", 
+        Component: NotFoundPage 
     },
 ])

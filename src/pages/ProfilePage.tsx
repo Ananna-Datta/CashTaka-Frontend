@@ -21,7 +21,6 @@ const ProfilePage: React.FC = () => {
     confirmPassword: "",
   });
 
-  // ✅ Prefill data when loaded
   useEffect(() => {
     if (data?.data) {
       setForm({
@@ -33,30 +32,26 @@ const ProfilePage: React.FC = () => {
     }
   }, [data]);
 
-  // ✅ Handle change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Update profile info
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await updateProfile({ name: form.name, phone: form.phone }).unwrap();
       toast.success("Profile updated successfully");
-      refetch(); // refresh user info
+      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to update profile");
     }
   };
 
-  // ✅ Update password
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
       return toast.error("Passwords do not match");
     }
-
     try {
       await updatePassword({ password: form.password }).unwrap();
       toast.success("Password updated successfully");
@@ -66,37 +61,31 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  if (isLoading) return <p className="text-center py-6">Loading profile...</p>;
+  if (isLoading) return <p className="text-center py-6 dark:text-gray-200">Loading profile...</p>;
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 bg-white shadow-md rounded-2xl p-6 space-y-8">
-      <h2 className="text-2xl font-semibold text-center">Profile Management</h2>
+    <div className="max-w-2xl mx-auto mt-10 p-6 space-y-8 rounded-2xl shadow-lg 
+    bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 transition">
+      
+      <h2 className="text-2xl font-semibold text-center text-gray-900 dark:text-gray-100">
+        Profile Management
+      </h2>
 
-      {/* --- Profile Info Update --- */}
+      {/* Profile Update Form */}
       <form onSubmit={handleProfileUpdate} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium">Full Name</label>
-          <Input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-          />
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
+          <Input name="name" value={form.name} onChange={handleChange} placeholder="Enter your name" />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
           <Input value={data?.data?.email || ""} disabled />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Phone</label>
-          <Input
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Enter phone number"
-          />
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+          <Input name="phone" value={form.phone} onChange={handleChange} placeholder="Enter phone number" />
         </div>
 
         <Button type="submit" disabled={updatingProfile} className="w-full">
@@ -104,39 +93,24 @@ const ProfilePage: React.FC = () => {
         </Button>
       </form>
 
-      <hr className="my-6" />
+      <hr className="dark:border-gray-700" />
 
-      {/* --- Password Update --- */}
+      {/* Password Change Form */}
       <form onSubmit={handlePasswordChange} className="space-y-4">
-        <h3 className="text-xl font-medium">Change Password</h3>
+        <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100">Change Password</h3>
 
         <div>
-          <label className="block text-sm font-medium">New Password</label>
-          <Input
-            name="password"
-            type="password"
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Enter new password"
-          />
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
+          <Input name="password" type="password" value={form.password} onChange={handleChange} />
         </div>
 
         <div>
-          <label className="block text-sm font-medium">Confirm Password</label>
-          <Input
-            name="confirmPassword"
-            type="password"
-            value={form.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm new password"
-          />
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
+          <Input name="confirmPassword" type="password" value={form.confirmPassword} onChange={handleChange} />
         </div>
 
-        <Button
-          type="submit"
-          disabled={updatingPassword}
-          className="w-full bg-blue-600 text-white"
-        >
+        <Button type="submit" disabled={updatingPassword} 
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white">
           {updatingPassword ? "Updating..." : "Change Password"}
         </Button>
       </form>

@@ -44,7 +44,7 @@ export function LoginForm({
     console.log("User info:", meRes.data);
 
     toast.success("Logged in successfully");
-    navigate("/");
+    navigate("/dashboard");
   } catch (err: any) {
     toast.error(err?.data?.message || "Login failed");
   }
